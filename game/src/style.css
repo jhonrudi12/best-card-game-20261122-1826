@@ -1,0 +1,123 @@
+/* Ember Duel — the table. Deep green felt, warm wood frame, cream cards. */
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #1c0f0a; }
+body { font-family: Georgia, 'Times New Roman', serif; color: #f5ead6; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.hidden { display: none !important; }
+
+#table {
+  height: 100vh; width: 100vw; padding: 10px 18px 12px;
+  background: radial-gradient(ellipse at 50% 30%, #1e6b3a 0%, #14532d 55%, #0d3a1f 100%);
+  border: 10px solid #5a3a1e; border-radius: 6px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+#table.dimmed { filter: brightness(0.45) saturate(0.7); }
+
+.topbar { display: flex; justify-content: space-between; align-items: baseline; }
+.game-title { font-size: 30px; letter-spacing: 6px; font-weight: bold; color: #ffd166; text-shadow: 0 2px 0 #7a4a00; }
+.turn-info { font-size: 16px; color: #d9c9a8; }
+
+.side { background: rgba(0, 0, 0, 0.18); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 10px; padding: 8px 12px; }
+.side-head { display: flex; align-items: center; gap: 14px; }
+.avatar {
+  width: 52px; height: 52px; border-radius: 50%; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; color: #fff; border: 3px solid #f5ead6;
+}
+.rival-avatar { background: #8f1d22; }
+.player-avatar { background: #14508f; }
+.hp-block { flex: 1; }
+.hp-label { font-size: 19px; margin-bottom: 3px; }
+.hp-label b { color: #ffd166; }
+.shield { color: #7dd3fc; font-weight: bold; }
+.hp-bar { height: 16px; background: rgba(0, 0, 0, 0.5); border-radius: 8px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.35); }
+.hp-fill { height: 100%; background: linear-gradient(90deg, #e5484d, #ff7a45); transition: width 0.25s; }
+.player-side .hp-fill { background: linear-gradient(90deg, #46c26a, #a3e635); }
+
+.intent {
+  margin-top: 6px; display: inline-block; padding: 5px 12px; border-radius: 6px;
+  background: #3b0d0d; color: #ffb4a2; font-size: 17px; font-weight: bold;
+  border: 1px solid #e5484d;
+}
+.rival-row { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+.rival-hand-label, .rival-played-label { font-size: 14px; color: #d9c9a8; }
+.rival-hand, .rival-played { display: flex; gap: 6px; min-height: 96px; align-items: center; }
+
+.middle { display: flex; gap: 12px; align-items: center; min-height: 64px; }
+.log { flex: 1; min-width: 0; font-size: 15px; line-height: 1.45; color: #efe3c2; }
+.log div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chain-note {
+  flex: none; white-space: nowrap;
+  padding: 6px 12px; border-radius: 6px; background: #4a1600; color: #ffb703;
+  font-weight: bold; font-size: 16px; border: 1px solid #f5b301;
+}
+
+.energy-block { font-size: 19px; font-weight: bold; color: #ffd166; white-space: nowrap; }
+.energy .pip { color: #5b4a33; font-size: 22px; margin-left: 2px; }
+.energy .pip.on { color: #ffd166; text-shadow: 0 0 8px #f5b301; }
+
+.hand { display: flex; gap: 12px; justify-content: center; margin-top: 8px; min-height: 216px; }
+.card {
+  position: relative; width: 148px; height: 208px; flex: none;
+  background: #fdf6e3; color: #241a12; border-radius: 12px;
+  border: 3px solid #8a6d3b; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+  padding: 10px 10px 8px; cursor: pointer; transition: transform 0.12s, box-shadow 0.12s;
+  text-align: center;
+}
+.card:hover { transform: translateY(-8px); box-shadow: 0 10px 18px rgba(0, 0, 0, 0.55); }
+.card.selected { outline: 3px solid #ffd166; transform: translateY(-8px); }
+.card.cant { opacity: 0.55; cursor: not-allowed; }
+.card.cant:hover { transform: none; }
+.card.suit-flame { border-top: 8px solid #e5484d; }
+.card.suit-tide { border-top: 8px solid #3e9bff; }
+.card.suit-grove { border-top: 8px solid #46c26a; }
+.card.suit-storm { border-top: 8px solid #f5b301; }
+.card-cost {
+  position: absolute; top: 6px; left: 6px; min-width: 30px; height: 30px;
+  border-radius: 50%; color: #ffd166; font-size: 15px; font-weight: bold;
+  display: flex; align-items: center; justify-content: center; padding: 0 4px;
+}
+.card-glyph { font-size: 44px; line-height: 1.1; margin-top: 8px; }
+.card-name { font-size: 17px; font-weight: bold; margin-top: 2px; }
+.card-suit { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #7a6a4f; }
+.card-text { font-size: 14px; line-height: 1.35; margin-top: 8px; color: #3d3225; }
+.card.small { width: 62px; height: 88px; padding: 4px; cursor: default; }
+.card.small .card-glyph { font-size: 20px; margin-top: 16px; }
+.card.small .card-name { font-size: 10px; }
+.card.small .card-suit { font-size: 8px; }
+.card.small .card-text { display: none; }
+.card.small .card-cost { min-width: 20px; height: 20px; font-size: 10px; top: 3px; left: 3px; }
+.card.small:hover { transform: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45); }
+.card.back { background: repeating-linear-gradient(45deg, #7a1f1f 0 10px, #9c2b2b 10px 20px); border-color: #5a3a1e; color: #ffd166; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.card-back-glyph { font-size: 26px; }
+.card-back-word { font-size: 10px; letter-spacing: 3px; margin-top: 4px; }
+
+.controls { display: flex; align-items: center; gap: 16px; justify-content: center; margin-top: 8px; }
+button {
+  font-family: Georgia, serif; font-size: 19px; font-weight: bold; cursor: pointer;
+  color: #241a12; background: linear-gradient(180deg, #ffd166, #f5b301);
+  border: 2px solid #8a6400; border-radius: 10px; padding: 10px 26px;
+  box-shadow: 0 3px 0 #8a6400;
+}
+button:hover:not(:disabled) { filter: brightness(1.08); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.hint { font-size: 14px; color: #d9c9a8; }
+
+.overlay {
+  position: fixed; inset: 0; background: rgba(10, 5, 2, 0.72);
+  display: flex; align-items: center; justify-content: center; z-index: 10;
+}
+.overlay-card {
+  background: #fdf6e3; color: #241a12; border-radius: 16px; border: 4px solid #8a6d3b;
+  max-width: 640px; padding: 28px 36px; text-align: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+.overlay-glyphs { font-size: 40px; letter-spacing: 10px; }
+.g-flame { color: #e5484d; } .g-tide { color: #3e9bff; } .g-grove { color: #46c26a; } .g-storm { color: #f5b301; }
+.overlay-card h1 { font-size: 52px; letter-spacing: 6px; margin: 8px 0; color: #8f1d22; }
+.tagline { font-size: 18px; line-height: 1.5; }
+.howto { text-align: left; font-size: 16px; line-height: 1.7; margin: 14px auto; max-width: 480px; }
+.foot { font-size: 14px; color: #7a6a4f; }
+.end-title { font-size: 64px !important; }
+.end-title.win { color: #1d6b38; }
+.end-title.loss { color: #8f1d22; }
