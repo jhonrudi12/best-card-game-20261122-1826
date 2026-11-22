@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ember Duel — a turn-based card battler</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+<div id="table">
+  <header class="topbar">
+    <div class="game-title">EMBER DUEL</div>
+    <div id="turn-info" class="turn-info"></div>
+  </header>
+
+  <section class="side rival-side">
+    <div class="side-head">
+      <div class="avatar rival-avatar">▲</div>
+      <div class="hp-block" id="rival-hp"></div>
+    </div>
+    <div id="rival-intent" class="intent"></div>
+    <div class="rival-row">
+      <div class="rival-hand-label">Rival's hand</div>
+      <div id="rival-hand" class="rival-hand"></div>
+      <div class="rival-played-label">Rival just played</div>
+      <div id="rival-played" class="rival-played"></div>
+    </div>
+  </section>
+
+  <section class="middle">
+    <div id="log" class="log" aria-live="polite"></div>
+    <div id="chain-note" class="chain-note hidden"></div>
+  </section>
+
+  <section class="side player-side">
+    <div class="side-head">
+      <div class="avatar player-avatar">●</div>
+      <div class="hp-block" id="player-hp"></div>
+      <div id="energy" class="energy-block"></div>
+    </div>
+    <div id="player-hand" class="hand"></div>
+    <div class="controls">
+      <button id="end-turn" type="button">End Turn (Space)</button>
+      <div class="hint">Click a card or press 1–5 to play it · Arrow keys select · Space ends the turn</div>
+    </div>
+  </section>
+</div>
+
+<div id="title-screen" class="overlay">
+  <div class="overlay-card">
+    <div class="overlay-glyphs"><span class="g-flame">▲</span> <span class="g-tide">●</span> <span class="g-grove">◆</span> <span class="g-storm">★</span></div>
+    <h1>EMBER DUEL</h1>
+    <p class="tagline">A turn-based card battler. Outplay Ash, the Cinder Rival — read the move it telegraphs, chain your Flames, and take its 30 life before it takes yours.</p>
+    <div class="howto">
+      <div><b>1–5 / Click</b> — play a card from your hand</div>
+      <div><b>Space</b> — end your turn</div>
+      <div><b>3 energy</b> a turn · <b>5 cards</b> in hand · <b>30 life</b> each</div>
+      <div>Two Flame cards in one turn chain: the second deals bonus damage.</div>
+    </div>
+    <button id="start-btn" type="button">Begin the Duel</button>
+    <p class="foot">Original game · no network · keyboard and mouse</p>
+  </div>
+</div>
+
+<div id="end-screen" class="overlay hidden">
+  <div class="overlay-card">
+    <h1 id="end-title" class="end-title">VICTORY</h1>
+    <p id="end-text" class="tagline"></p>
+    <button id="again-btn" type="button">Play Again (R)</button>
+  </div>
+</div>
+
+<p id="status" class="sr-only" role="status" aria-live="polite"></p>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
